@@ -63,7 +63,7 @@ for i in testo:
 
 
 somma = sum(alfabeto.values())
-#print(somma)
+print(somma)
 
 for i in alfabeto:
     alfabeto[i] = alfabeto[i] * 100 / somma
