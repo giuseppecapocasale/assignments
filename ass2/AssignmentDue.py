@@ -29,7 +29,7 @@ class Particle:
     
     @beta.setter
     def beta(self, beta):
-        if (beta < 0) or (eta > 1):
+        if (beta < 0) or (beta > 1):
             print("Values of beta lowerthan 0 or greater than 1 are non physical!")
         elif (beta >= 1.) and (self.mass <= 0.):
             print("Cannot set beta = 1 for a massive particle!")
@@ -108,7 +108,7 @@ class Particle:
     
     @beta.setter
     def beta(self, beta):
-        if (beta < 0) or (eta > 1):
+        if (beta < 0) or (beta > 1):
             print("Values of beta lowerthan 0 or greater than 1 are non physical!")
         elif (beta >= 1.) and (self.mass <= 0.):
             print("Cannot set beta = 1 for a massive particle!")
@@ -200,7 +200,7 @@ class Particle:
     
     @beta.setter
     def beta(self, beta):
-        if (beta < 0) or (eta > 1):
+        if (beta < 0) or (beta > 1):
             print("Values of beta lowerthan 0 or greater than 1 are non physical!")
         elif (beta >= 1.) and (self.mass <= 0.):
             print("Cannot set beta = 1 for a massive particle!")
@@ -228,3 +228,110 @@ if __name__ == '__main__':
     print(f"Muon energy = {muon.energy:.2f} MeV, "\
           f"momentum = {muon.momentum:.2f} MeV, "\
             f"beta = {muon.beta:.5f}.")
+    print()
+    
+
+
+
+#Aggiungiamo Alfa e Protoni
+
+
+class Particle:
+    def __init__(self, mass, charge, name, momentum=0.):
+        self._mass = mass
+        self._charge = charge
+        self._name = name      
+        self._momentum = momentum
+
+    @property
+    def mass(self):
+        return self._mass
+    
+    @mass.setter
+    def mass(self, mass):
+        if mass < 0:
+            print("Cannot set the mass lower than 0! It will be set to zero instead:")
+            self._mass = 0.
+        else:
+            self._mass = mass
+
+
+    @property
+    def charge(self):
+        return self._charge
+    
+    @property
+    def name(self):
+        return self._name
+    
+    @property
+    def momentum(self):     #ora sono read only perché non hanno un setter
+        return self._momentum
+
+    @momentum.setter
+    def momentum(self, momentum):
+        if momentum < 0:
+            print("Cannot set the momentum lower than 0! It will be set to 0 instead:")
+            self._momentum = 0.
+        else:
+            self._momentum = momentum
+
+
+    @property
+    def energy(self):
+        return math.sqrt(self._mass**2 + self._momentum**2)
+    
+    @energy.setter
+    def energy(self, energy):
+        if energy < self._mass:
+            print("Particle's energy can not be lower then its own mass!")
+        else:
+            self._momentum =math.sqrt(energy**2 - self._mass**2)
+
+    @property
+    def beta(self):
+        return self.momentum/self.energy
+    
+    @beta.setter
+    def beta(self, beta):
+        if (beta < 0) or (beta > 1):
+            print("Values of beta lower than 0 or greater than 1 are non physical!")
+        elif (beta >= 1.) and (self.mass <= 0.):
+            print("Cannot set beta = 1 for a massive particle!")
+        else:
+            self.momentum = beta * self.energy
+
+    def print_info(self):
+        print(f"Particle: {self.name} of mass {self.mass} MeV, charge {self.charge}|e|, momentum {self.momentum} MeV.")
+        print()
+
+
+class Proton(Particle):
+
+    MASS = 938.     #MeV
+    CHARGE = +1
+    NAME = "Proton"
+
+    def __init__(self, momentum=0.):
+        Particle.__init__(self, mass=Proton.MASS, charge=Proton.CHARGE, name=Proton.NAME, momentum=momentum)
+
+
+if __name__ == '__main__':
+    muon = Particle(mass=105.6, charge=-1, name='Muon', momentum=100)    #se non si mette l'impulso la macchina considera il valore di default
+    muon.mass = -1
+    muon.print_info()
+    muon.energy = 50        #errore!
+    muon.print_info()
+    muon.energy = 200
+    muon.print_info()
+    muon.momentum = 20      #errore!: propety "momentum" pf "Particle" object has no setter
+    print(f"Muon energy = {muon.energy:.2f} MeV, "\
+          f"momentum = {muon.momentum:.2f} MeV, "\
+            f"beta = {muon.beta:.5f}.")
+    muon.momentum = -1
+    muon.print_info()
+    muon.energy = 200       #errore!: propety "momentum" pf "Particle" object has no setter
+    print(f"Muon energy = {muon.energy:.2f} MeV, "\
+          f"momentum = {muon.momentum:.2f} MeV, "\
+            f"beta = {muon.beta:.5f}.")
+    
