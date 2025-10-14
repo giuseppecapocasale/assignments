@@ -154,7 +154,7 @@ class Particle:
 
     @property
     def mass(self):
-        return self._mass
+        return self._mass       #perché non return mass?
     
     @mass.setter
     def mass(self, mass):
@@ -303,7 +303,9 @@ class Particle:
 
     def print_info(self):
         print(f"Particle: {self.name} of mass {self.mass} MeV, charge {self.charge}|e|, momentum {self.momentum} MeV.")
-        print()
+
+
+
 
 
 class Proton(Particle):
@@ -316,21 +318,38 @@ class Proton(Particle):
         Particle.__init__(self, mass=Proton.MASS, charge=Proton.CHARGE, name=Proton.NAME, momentum=momentum)
 
 
+
+
+
 if __name__ == '__main__':
+
     muon = Particle(mass=105.6, charge=-1, name='Muon', momentum=100)    #se non si mette l'impulso la macchina considera il valore di default
-    muon.mass = -1
     muon.print_info()
+    print()
+
+    #muon.mass = -1
+    #muon.print_info()
+    #print()
+
     muon.energy = 50        #errore!
-    muon.print_info()
+    print()
+
     muon.energy = 200
     muon.print_info()
-    muon.momentum = 20      #errore!: propety "momentum" pf "Particle" object has no setter
+    print()
+    print()
+
+    muon.momentum = 20   
     print(f"Muon energy = {muon.energy:.2f} MeV, "\
           f"momentum = {muon.momentum:.2f} MeV, "\
             f"beta = {muon.beta:.5f}.")
+    print()
+
     muon.momentum = -1
     muon.print_info()
-    muon.energy = 200       #errore!: propety "momentum" pf "Particle" object has no setter
+    print()
+    
+    muon.energy = 200   
     print(f"Muon energy = {muon.energy:.2f} MeV, "\
           f"momentum = {muon.momentum:.2f} MeV, "\
             f"beta = {muon.beta:.5f}.")
